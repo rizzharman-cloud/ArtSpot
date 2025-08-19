@@ -1,0 +1,18 @@
+doctype html 
+
+html 
+    head 
+        title Add Workshop
+        meta(charset="UTF-8")
+        script(src="addWorkshop.js")
+
+    body(onload="init()")
+        include ../partials/header.pug
+        br
+
+        h1 Create Workshop
+
+        h3 Workshop Name: 
+            input(type="textbox" id="workshopName") 
+        br
+        button(type="submit" id="addWorkshop") Create Workshop

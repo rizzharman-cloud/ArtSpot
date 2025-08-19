@@ -1,0 +1,50 @@
+doctype html 
+
+html 
+    head 
+        title Artworks
+        meta(charset="UTF-8")
+        script(src="artworks.js")
+
+    body(onload=`init(${JSON.stringify(artworks)})`)
+        include ../partials/header.pug
+        br
+
+        if pageNumber != 0 && !likes
+            a(href=`/artwork?page=${parseInt(pageNumber)-parseInt(1)}`) Back 
+        
+        if !maxPage && !likes
+            a(href=`/artwork?page=${parseInt(pageNumber)+parseInt(1)}`) Next
+
+        if pageNumber != 0 && likes
+            a(href=`/likedArtworks?page=${parseInt(pageNumber)-parseInt(1)}`) Back 
+
+        if !maxPage && likes
+            a(href=`/likedArtworks?page=${parseInt(pageNumber)+parseInt(1)}`) Next 
+
+        if likes 
+            h1 Liked Artwork:
+            if artworks.length == 0
+                h3 No Liked Artworks
+        else 
+            h2 Find Specific Artworks:
+            h3 Artwork Name: 
+                input(type="textbox" id="artworkName") 
+            h3 Artist Name: 
+                input(type="textbox" id="artistName")
+            h3 Artwork Category: 
+                input(type="textbox" id="artworkCategory") 
+            h3 Artwork Medium: 
+                input(type="textbox" id="artworkMedium")  
+            button(type="submit" id="search") Search
+            br
+        
+        div#results
+            //- each piece in artworks
+            //-     a(href=`/artwork/${piece.name}`) #{piece.name} by #{piece.artist} in #{piece.year}
+            //-     h3 #{piece.description}
+            //-     h4 Category: #{piece.category}
+            //-     h4 Made from: #{piece.medium}
+            //-     img(src=`${piece.image}`)
+            //-     br
+            //-     br

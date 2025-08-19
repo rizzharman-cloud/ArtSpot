@@ -1,0 +1,18 @@
+doctype html 
+
+html 
+    head 
+        title Create Account 
+        meta(charset="UTF-8")
+        script(src="createAccount.js")
+
+    body(onload="init()")
+        h1 Create an Account
+        h3 New Username:
+            input(type="textbox" id="username") 
+        h3 New Password:
+            input(type="textbox" id="password") 
+        button(type="submit" id="createAccount") Sign Up
+        br
+        br
+        a(href="/") Already have an Account?

@@ -1,0 +1,19 @@
+doctype html 
+
+html 
+    head 
+        title Login
+        meta(charset="UTF-8")
+        script(src="login.js")
+
+    body(onload="init()")
+        h1 Welcome Back! 
+
+        h3 Username:
+            input(type="textbox" id="username") 
+        h3 Password:
+            input(type="textbox" id="password") 
+        button(type="submit" id="login") Login
+        br
+        br
+        a(href="/createAccount") Don't have an account?

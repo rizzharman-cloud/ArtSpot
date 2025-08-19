@@ -1,0 +1,42 @@
+doctype html 
+
+html
+    head 
+        title Home 
+        meta(charset="UTF-8")
+        script(src="home.js")
+    
+    body(onload="init()")
+        include ../partials/header.pug
+        h2 Welcome back #{user.username}!
+
+        button(type="submit" id="changeType") Change Account Type
+
+        button(type="submit" id="logout") Log Out
+
+        if user.createdArtworks.length != 0
+            h2 Your Artworks: 
+        each artwork in user.createdArtworks
+            a(href=`/artwork/${artwork}`) #{artwork}
+            br
+
+        if user.createdWorkshops.length != 0
+            h2 Your Workshops:
+        each workshop in user.createdWorkshops 
+            p You are hosting the #{workshop.name} workshop
+            p Participants include: 
+            each person in workshop.participants 
+                a(href=`/artist/${person}`) #{person}
+                br
+            br 
+
+        if user.likes.length != 0
+            h2 Your Reviews: 
+        each review in user.likes   
+            h4 Review for #{review.artName}: 
+                p #{review.review}
+        
+        if user.attendingWorkshops.length != 0
+            h2 Attending Workshops:
+        each workshop in user.attendingWorkshops
+            h4 You are attending #{workshop.name} workshop

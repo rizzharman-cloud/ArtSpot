@@ -1,0 +1,29 @@
+doctype html 
+
+html 
+    head 
+        title Add Artwork 
+        meta(charset="UTF-8")
+        script(src="addArtworks.js")
+
+    body(onload="init()")
+        include ../partials/header.pug
+
+        h1 Create Artwork
+
+        h3 New Artwork Name: 
+            input(type="textbox" id="artworkName") 
+        h3 New Artwork Year: 
+            input(type="textbox" id="artworkYear") 
+        h3 New Artwork Category: 
+            input(type="textbox" id="artworkCategory") 
+        h3 New Artwork Medium: 
+            input(type="textbox" id="artworkMedium") 
+        h3 New Artwork Description: 
+            input(type="textbox" id="artworkDescription") 
+        h3 New Artwork Image: 
+            input(type="textbox" id="artworkImage") 
+        br
+        button(type="submit" id="addArtwork") Create Artwork
+
+        

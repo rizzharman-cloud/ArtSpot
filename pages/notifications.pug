@@ -1,0 +1,18 @@
+doctype html 
+
+html 
+    head 
+        title Notifictions
+        meta(charset="UTF-8")
+        script(src="notifications.js")
+
+    body(onload="init()")
+        include ../partials/header.pug
+
+        if notifications.length == 0
+            h2 No Notifications
+        else 
+            h2 Notifications: 
+
+        each notif in notifications
+            h4 #{notif.text}

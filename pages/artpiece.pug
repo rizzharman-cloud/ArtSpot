@@ -1,0 +1,37 @@
+doctype html 
+
+html(lang="en")
+    head 
+        title #{piece.name}
+        meta(charset="UTF-8")
+        script(src="artpiece.js")
+
+    body(onload=`init(${JSON.stringify(piece.name)})`)
+        include ../partials/header.pug
+        br
+
+        h3 #{piece.name} by 
+            a(href=`/artist/${piece.artist}`) #{piece.artist} 
+        h3 Made in #{piece.year}
+        h3 #{piece.description}
+        a(href=`/artwork?category=${piece.category}`)
+            h4 Category #{piece.category}
+        a(href=`/artwork?medium=${piece.medium}`)
+            h4 Made from: #{piece.medium}
+        img(src=`${piece.image}`)
+
+        if piece.reviews.length == 0
+            h3 No Reviews
+            br
+        else 
+            h2 #{piece.reviews.length} Likes: 
+
+        each rating in piece.reviews
+            p #{rating.review} by #{rating.reviewer}    
+                if(rating.reviewer == currentUser) 
+                    button(type="submit" id="unlike") Remove Your Review
+
+        h2 Add a Review: 
+            input(type="textbox" id="review") 
+        br
+        button(type="submit" id="like") Like Artwork

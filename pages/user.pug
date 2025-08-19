@@ -1,0 +1,33 @@
+doctype html 
+
+html 
+    head 
+        title #{artist.username}
+        meta(charset="UTF-8")
+        script(src="user.js")
+
+    body(onload=`init()`)
+        include ../partials/header.pug
+
+        h1#name #{artist.username}
+
+        h2 Created Artpieces: 
+
+        if artist.createdArtworks.length == 0
+            h4 No artpieces created yet
+
+        each artpiece in artist.createdArtworks 
+            a(href=`/artwork/${artpiece}`) #{artpiece}
+            br
+        br
+
+        if artist.createdWorkshops.length == 0
+            h4 No Workshops 
+        else 
+            h2 Workshops:
+
+        each workshop in artist.createdWorkshops 
+            h2 #{workshop.name}         
+                button(type="submit" id=`${workshop.name}` class="registerWorkshop") Register
+
+        button(type="submit" id="follow") Follow
