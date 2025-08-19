@@ -1,12 +1,19 @@
-doctype html 
-
-html 
-    head 
-        title Unauthorized
-        meta(charset="UTF-8")
-
-    body
-        include ../partials/header.pug
-
-        h1 You are unauthorized to enter this page. 
-        
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Art Gallery - Unauthorized
+    link(rel="stylesheet", href="/styles/main.css")
+    link(rel="preconnect", href="https://fonts.googleapis.com")
+    link(rel="preconnect", href="https://fonts.gstatic.com", crossorigin)
+    link(href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap", rel="stylesheet")
+  
+  body
+    .main-content
+      .container(style="padding: 100px 20px; text-align: center;")
+        .card
+          .card-body(style="padding: 60px 40px;")
+            .card-title(style="font-size: 32px; color: #dc3545; margin-bottom: 20px;") Access Denied
+            .card-text(style="font-size: 18px; margin-bottom: 30px;") You need an artist account to access this feature.
+            a.btn.btn-primary(href="/home") Return Home

@@ -1,18 +1,35 @@
-doctype html 
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Art Gallery - Create Workshop
+    link(rel="stylesheet", href="/styles/main.css")
+    link(rel="preconnect", href="https://fonts.googleapis.com")
+    link(rel="preconnect", href="https://fonts.gstatic.com", crossorigin)
+    link(href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap", rel="stylesheet")
+  
+  body
+    .main-content
+      header.header
+        .container
+          .header-content
+            a.logo(href="/home") Art Gallery
+            nav.nav-menu
+              a.nav-link(href="/home") Home
+              a.nav-link(href="/artwork") Browse Art
 
-html 
-    head 
-        title Add Workshop
-        meta(charset="UTF-8")
-        script(src="addWorkshop.js")
+      .container
+        .form-container(style="max-width: 500px; margin: 40px auto;")
+          .form-title Create Workshop
+          p.card-text Share your knowledge and teach others
+          
+          .form-group
+            label.form-label(for="workshopName") Workshop Name
+            input.form-input(type="text", id="workshopName", placeholder="Enter workshop title")
+          
+          button.btn.btn-primary.btn-full(id="addWorkshop") Create Workshop
 
-    body(onload="init()")
-        include ../partials/header.pug
-        br
-
-        h1 Create Workshop
-
-        h3 Workshop Name: 
-            input(type="textbox" id="workshopName") 
-        br
-        button(type="submit" id="addWorkshop") Create Workshop
+    script(src="/addWorkshop.js")
+    script.
+      window.onload = init;

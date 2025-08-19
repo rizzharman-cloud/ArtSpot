@@ -1,18 +1,34 @@
-doctype html 
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Art Gallery - Notifications
+    link(rel="stylesheet", href="/styles/main.css")
+    link(rel="preconnect", href="https://fonts.googleapis.com")
+    link(rel="preconnect", href="https://fonts.gstatic.com", crossorigin)
+    link(href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap", rel="stylesheet")
+  
+  body
+    .main-content
+      header.header
+        .container
+          .header-content
+            a.logo(href="/home") Art Gallery
+            nav.nav-menu
+              a.nav-link(href="/home") Home
+              a.nav-link(href="/artwork") Browse Art
+              a.nav-link(href="/followed") Following
 
-html 
-    head 
-        title Notifictions
-        meta(charset="UTF-8")
-        script(src="notifications.js")
-
-    body(onload="init()")
-        include ../partials/header.pug
-
-        if notifications.length == 0
-            h2 No Notifications
-        else 
-            h2 Notifications: 
-
-        each notif in notifications
-            h4 #{notif.text}
+      .container(style="padding: 40px 20px;")
+        .card-title(style="margin-bottom: 30px; font-size: 28px;") Your Notifications
+        
+        if notifications && notifications.length > 0
+          .notifications-list
+            each notification in notifications
+              .notification
+                .notification-text= notification.text
+        else
+          .card(style="text-align: center; padding: 60px 20px;")
+            .card-title No notifications
+            .card-text You're all caught up! New notifications will appear here.

@@ -1,19 +1,34 @@
-doctype html 
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Art Gallery - Login
+    link(rel="stylesheet", href="/styles/main.css")
+    link(rel="preconnect", href="https://fonts.googleapis.com")
+    link(rel="preconnect", href="https://fonts.gstatic.com", crossorigin)
+    link(href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap", rel="stylesheet")
+  
+  body
+    .main-content
+      .form-container
+        .form-title Welcome Back
+        p.card-text Sign in to explore amazing artworks
+        
+        .form-group
+          label.form-label(for="username") Username
+          input.form-input(type="text", id="username", placeholder="Enter your username")
+        
+        .form-group
+          label.form-label(for="password") Password  
+          input.form-input(type="password", id="password", placeholder="Enter your password")
+        
+        button.btn.btn-primary.btn-full(id="login") Sign In
+        
+        .text-center(style="margin-top: 20px;")
+          p Don't have an account? 
+            a(href="/createAccount", style="color: #667eea; font-weight: 600;") Create Account
 
-html 
-    head 
-        title Login
-        meta(charset="UTF-8")
-        script(src="login.js")
-
-    body(onload="init()")
-        h1 Welcome Back! 
-
-        h3 Username:
-            input(type="textbox" id="username") 
-        h3 Password:
-            input(type="textbox" id="password") 
-        button(type="submit" id="login") Login
-        br
-        br
-        a(href="/createAccount") Don't have an account?
+    script(src="/login.js")
+    script.
+      window.onload = init;

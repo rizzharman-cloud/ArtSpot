@@ -1,33 +1,59 @@
-doctype html 
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title= `${artist.username} - Art Gallery`
+    link(rel="stylesheet", href="/styles/main.css")
+    link(rel="preconnect", href="https://fonts.googleapis.com")
+    link(rel="preconnect", href="https://fonts.gstatic.com", crossorigin)
+    link(href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap", rel="stylesheet")
+  
+  body
+    .main-content
+      header.header
+        .container
+          .header-content
+            a.logo(href="/home") Art Gallery
+            nav.nav-menu
+              a.nav-link(href="/home") Home
+              a.nav-link(href="/artwork") Browse Art
 
-html 
-    head 
-        title #{artist.username}
-        meta(charset="UTF-8")
-        script(src="user.js")
+      .profile-header
+        .profile-avatar= artist.username.charAt(0).toUpperCase()
+        .profile-name(id="name")= artist.username
+        .profile-type= artist.isArtist ? "Artist" : "Art Enthusiast"
+        if artist.isArtist
+          button.btn.btn-primary(id="follow", style="margin-top: 20px;") Follow Artist
 
-    body(onload=`init()`)
-        include ../partials/header.pug
+      .container(style="padding: 40px 20px;")
+        if artist.isArtist && artist.createdArtworks && artist.createdArtworks.length > 0
+          .section
+            .card-title(style="margin-bottom: 25px; font-size: 24px;") Artworks (#{artist.createdArtworks.length})
+            .artwork-list(style="display: grid; gap: 15px;")
+              each artwork in artist.createdArtworks
+                .card
+                  .card-body
+                    .artwork-title(style="font-size: 18px; font-weight: 600; color: #667eea;")
+                      a(href=`/artwork/${artwork}`, style="color: inherit; text-decoration: none;")= artwork
 
-        h1#name #{artist.username}
+        if artist.isArtist && artist.createdWorkshops && artist.createdWorkshops.length > 0
+          .section(style="margin-top: 40px;")
+            .card-title(style="margin-bottom: 25px; font-size: 24px;") Workshops (#{artist.createdWorkshops.length})
+            .workshop-list(style="display: grid; gap: 20px;")
+              each workshop in artist.createdWorkshops
+                .workshop-card
+                  .workshop-title= workshop.name
+                  .workshop-host Hosted by #{artist.username}
+                  if workshop.participants
+                    p(style="margin-bottom: 15px; opacity: 0.9;")= `${workshop.participants.length} participants registered`
+                  button.btn.btn-success.registerWorkshop(id=workshop.name) Register for Workshop
 
-        h2 Created Artpieces: 
+        if (!artist.createdArtworks || artist.createdArtworks.length === 0) && (!artist.createdWorkshops || artist.createdWorkshops.length === 0)
+          .card(style="text-align: center; padding: 60px 20px;")
+            .card-title= artist.isArtist ? "No content yet" : "Art Enthusiast"
+            .card-text= artist.isArtist ? `${artist.username} hasn't shared any artworks or workshops yet.` : `${artist.username} is exploring the world of art.`
 
-        if artist.createdArtworks.length == 0
-            h4 No artpieces created yet
-
-        each artpiece in artist.createdArtworks 
-            a(href=`/artwork/${artpiece}`) #{artpiece}
-            br
-        br
-
-        if artist.createdWorkshops.length == 0
-            h4 No Workshops 
-        else 
-            h2 Workshops:
-
-        each workshop in artist.createdWorkshops 
-            h2 #{workshop.name}         
-                button(type="submit" id=`${workshop.name}` class="registerWorkshop") Register
-
-        button(type="submit" id="follow") Follow
+    script(src="/user.js")
+    script.
+      window.onload = init;

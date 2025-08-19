@@ -1,37 +1,96 @@
-doctype html 
-
+doctype html
 html(lang="en")
-    head 
-        title #{piece.name}
-        meta(charset="UTF-8")
-        script(src="artpiece.js")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title= `${piece.name} - Art Gallery`
+    link(rel="stylesheet", href="/styles/main.css")
+    link(rel="preconnect", href="https://fonts.googleapis.com")
+    link(rel="preconnect", href="https://fonts.gstatic.com", crossorigin)
+    link(href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap", rel="stylesheet")
+  
+  body
+    .main-content
+      header.header
+        .container
+          .header-content
+            a.logo(href="/home") Art Gallery
+            nav.nav-menu
+              a.nav-link(href="/home") Home
+              a.nav-link(href="/artwork") Browse Art
+              a.nav-link(href=`/artist/${piece.artist}`) Artist Profile
 
-    body(onload=`init(${JSON.stringify(piece.name)})`)
-        include ../partials/header.pug
-        br
+      .container(style="padding: 40px 20px;")
+        .artwork-detail(style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 40px;")
+          .artwork-image-container
+            img(src=piece.image, alt=piece.name, style="width: 100%; height: 500px; object-fit: cover; border-radius: 15px; box-shadow: 0 15px 35px rgba(0,0,0,0.1);", onerror="this.src='https://via.placeholder.com/500x500?text=Art+Image'")
+          
+          .artwork-details
+            .artwork-title(style="font-size: 36px; font-weight: 700; margin-bottom: 15px; color: #2c3e50;")= piece.name
+            .artwork-artist(style="font-size: 20px; color: #667eea; font-weight: 600; margin-bottom: 20px;")
+              | by 
+              a(href=`/artist/${piece.artist}`, style="color: inherit; text-decoration: none;")= piece.artist
+            
+            .artwork-meta-grid(style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px;")
+              .meta-item
+                .meta-label(style="font-weight: 600; color: #666; margin-bottom: 5px;") Year
+                .meta-value(style="font-size: 18px; color: #2c3e50;")= piece.year
+              
+              .meta-item
+                .meta-label(style="font-weight: 600; color: #666; margin-bottom: 5px;") Category
+                .meta-value(style="font-size: 18px; color: #2c3e50;")= piece.category
+              
+              .meta-item
+                .meta-label(style="font-weight: 600; color: #666; margin-bottom: 5px;") Medium
+                .meta-value(style="font-size: 18px; color: #2c3e50;")= piece.medium
+            
+            .artwork-description(style="background: #f8f9fa; padding: 25px; border-radius: 15px; margin-bottom: 30px;")
+              .meta-label(style="font-weight: 600; color: #666; margin-bottom: 10px;") Description
+              p(style="line-height: 1.7; color: #555;")= piece.description
 
-        h3 #{piece.name} by 
-            a(href=`/artist/${piece.artist}`) #{piece.artist} 
-        h3 Made in #{piece.year}
-        h3 #{piece.description}
-        a(href=`/artwork?category=${piece.category}`)
-            h4 Category #{piece.category}
-        a(href=`/artwork?medium=${piece.medium}`)
-            h4 Made from: #{piece.medium}
-        img(src=`${piece.image}`)
+            - var userHasReviewed = false
+            if piece.reviews
+              each review in piece.reviews
+                if review.reviewer === currentUser
+                  - userHasReviewed = true
 
-        if piece.reviews.length == 0
-            h3 No Reviews
-            br
-        else 
-            h2 #{piece.reviews.length} Likes: 
+            if !userHasReviewed && piece.artist !== currentUser
+              .review-form(style="background: #f8f9fa; padding: 25px; border-radius: 15px;")
+                .form-title(style="margin-bottom: 20px;") Share Your Thoughts
+                .form-group
+                  label.form-label(for="review") Write a Review
+                  textarea.form-input.form-textarea(id="review", placeholder="What do you think about this artwork?")
+                button.btn.btn-primary(id="like") Submit Review
+            
+            else if userHasReviewed
+              .review-actions(style="text-align: center;")
+                p(style="color: #28a745; font-weight: 600; margin-bottom: 15px;") ✓ You've reviewed this artwork
+                button.btn.btn-danger(id="unlike") Remove Review
 
-        each rating in piece.reviews
-            p #{rating.review} by #{rating.reviewer}    
-                if(rating.reviewer == currentUser) 
-                    button(type="submit" id="unlike") Remove Your Review
+        if piece.reviews && piece.reviews.length > 0
+          .reviews-section
+            .card-title(style="margin-bottom: 25px; font-size: 24px;") Reviews (#{piece.reviews.length})
+            each review in piece.reviews
+              .review-card
+                .review-author= review.reviewer
+                .review-text= review.review
 
-        h2 Add a Review: 
-            input(type="textbox" id="review") 
-        br
-        button(type="submit" id="like") Like Artwork
+        else
+          .card(style="text-align: center; padding: 40px;")
+            .card-title No reviews yet
+            .card-text Be the first to share your thoughts about this artwork!
+
+    script(src="/artpiece.js")
+    script.
+      window.onload = function() { init('#{piece.name}', '#{currentUser}'); };
+
+    style.
+      @media (max-width: 768px) {
+        .artwork-detail {
+          grid-template-columns: 1fr !important;
+          gap: 20px !important;
+        }
+        .artwork-meta-grid {
+          grid-template-columns: 1fr !important;
+        }
+      }

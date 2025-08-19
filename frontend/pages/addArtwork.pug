@@ -1,29 +1,65 @@
-doctype html 
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Art Gallery - Add Artwork
+    link(rel="stylesheet", href="/styles/main.css")
+    link(rel="preconnect", href="https://fonts.googleapis.com")
+    link(rel="preconnect", href="https://fonts.gstatic.com", crossorigin)
+    link(href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap", rel="stylesheet")
+  
+  body
+    .main-content
+      header.header
+        .container
+          .header-content
+            a.logo(href="/home") Art Gallery
+            nav.nav-menu
+              a.nav-link(href="/home") Home
+              a.nav-link(href="/artwork") Browse Art
 
-html 
-    head 
-        title Add Artwork 
-        meta(charset="UTF-8")
-        script(src="addArtworks.js")
+      .container
+        .form-container(style="max-width: 600px; margin: 40px auto;")
+          .form-title Add New Artwork
+          p.card-text Share your creative work with the community
+          
+          .form-group
+            label.form-label(for="artworkName") Artwork Name
+            input.form-input(type="text", id="artworkName", placeholder="Enter the title of your artwork")
+          
+          .form-group
+            label.form-label(for="artworkYear") Year Created
+            input.form-input(type="number", id="artworkYear", placeholder="e.g., 2024", min="1000", max="2024")
+          
+          .form-group
+            label.form-label(for="artworkCategory") Category
+            select.form-select(id="artworkCategory")
+              option(value="") Select a category
+              option(value="Painting") Painting
+              option(value="Sculpture") Sculpture
+              option(value="Photography") Photography
+              option(value="Digital Art") Digital Art
+              option(value="Drawing") Drawing
+              option(value="Mixed Media") Mixed Media
+              option(value="Installation") Installation
+              option(value="Other") Other
+          
+          .form-group
+            label.form-label(for="artworkMedium") Medium
+            input.form-input(type="text", id="artworkMedium", placeholder="e.g., Oil on canvas, Bronze, Digital")
+          
+          .form-group
+            label.form-label(for="artworkDescription") Description
+            textarea.form-input.form-textarea(id="artworkDescription", placeholder="Describe your artwork, inspiration, or technique...")
+          
+          .form-group
+            label.form-label(for="artworkImage") Image URL
+            input.form-input(type="url", id="artworkImage", placeholder="https://example.com/your-artwork.jpg")
+            small(style="color: #666; font-size: 14px;") Please provide a direct link to your artwork image
+          
+          button.btn.btn-primary.btn-full(id="addArtwork") Add Artwork
 
-    body(onload="init()")
-        include ../partials/header.pug
-
-        h1 Create Artwork
-
-        h3 New Artwork Name: 
-            input(type="textbox" id="artworkName") 
-        h3 New Artwork Year: 
-            input(type="textbox" id="artworkYear") 
-        h3 New Artwork Category: 
-            input(type="textbox" id="artworkCategory") 
-        h3 New Artwork Medium: 
-            input(type="textbox" id="artworkMedium") 
-        h3 New Artwork Description: 
-            input(type="textbox" id="artworkDescription") 
-        h3 New Artwork Image: 
-            input(type="textbox" id="artworkImage") 
-        br
-        button(type="submit" id="addArtwork") Create Artwork
-
-        
+    script(src="/addArtworks.js")
+    script.
+      window.onload = init;

@@ -1,50 +1,85 @@
-doctype html 
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Art Gallery - Browse Artworks
+    link(rel="stylesheet", href="/styles/main.css")
+    link(rel="preconnect", href="https://fonts.googleapis.com")
+    link(rel="preconnect", href="https://fonts.gstatic.com", crossorigin)
+    link(href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap", rel="stylesheet")
+  
+  body
+    .main-content
+      header.header
+        .container
+          .header-content
+            a.logo(href="/home") Art Gallery
+            nav.nav-menu
+              a.nav-link(href="/home") Home
+              a.nav-link(href="/artwork") Browse Art
+              a.nav-link(href="/likedArtworks") My Likes
+              a.nav-link(href="/followed") Following
 
-html 
-    head 
-        title Artworks
-        meta(charset="UTF-8")
-        script(src="artworks.js")
-
-    body(onload=`init(${JSON.stringify(artworks)})`)
-        include ../partials/header.pug
-        br
-
-        if pageNumber != 0 && !likes
-            a(href=`/artwork?page=${parseInt(pageNumber)-parseInt(1)}`) Back 
+      .search-container
+        h2.card-title(style="margin-bottom: 20px;") 
+          if likes
+            | My Liked Artworks
+          else
+            | Discover Amazing Art
         
-        if !maxPage && !likes
-            a(href=`/artwork?page=${parseInt(pageNumber)+parseInt(1)}`) Next
+        if !likes
+          .search-grid
+            .form-group
+              label.form-label(for="artworkName") Artwork Name
+              input.form-input(type="text", id="artworkName", placeholder="Search by name...")
+            
+            .form-group
+              label.form-label(for="artistName") Artist Name
+              input.form-input(type="text", id="artistName", placeholder="Search by artist...")
+            
+            .form-group
+              label.form-label(for="artworkCategory") Category
+              input.form-input(type="text", id="artworkCategory", placeholder="e.g., Painting, Sculpture...")
+            
+            .form-group
+              label.form-label(for="artworkMedium") Medium
+              input.form-input(type="text", id="artworkMedium", placeholder="e.g., Oil, Watercolor...")
+          
+          button.btn.btn-primary(id="search") Search Artworks
 
-        if pageNumber != 0 && likes
-            a(href=`/likedArtworks?page=${parseInt(pageNumber)-parseInt(1)}`) Back 
+      #results.artwork-grid
+        each artwork in artworks
+          .artwork-card
+            a(href=`/artwork/${artwork.name}`, style="text-decoration: none; color: inherit;")
+              img.artwork-image(src=artwork.image, alt=artwork.name, onerror="this.src='https://via.placeholder.com/300x250?text=Art+Image'")
+              .artwork-info
+                .artwork-title= artwork.name
+                .artwork-artist by #{artwork.artist}
+                .artwork-description= artwork.description
+                .artwork-meta
+                  span.category= artwork.category
+                  span.year= artwork.year
+                  span.medium= artwork.medium
 
-        if !maxPage && likes
-            a(href=`/likedArtworks?page=${parseInt(pageNumber)+parseInt(1)}`) Next 
+      if artworks.length === 0
+        .card(style="margin: 30px 20px; text-align: center; padding: 60px 20px;")
+          .card-title No artworks found
+          .card-text Try adjusting your search criteria or browse all artworks.
 
-        if likes 
-            h1 Liked Artwork:
-            if artworks.length == 0
-                h3 No Liked Artworks
-        else 
-            h2 Find Specific Artworks:
-            h3 Artwork Name: 
-                input(type="textbox" id="artworkName") 
-            h3 Artist Name: 
-                input(type="textbox" id="artistName")
-            h3 Artwork Category: 
-                input(type="textbox" id="artworkCategory") 
-            h3 Artwork Medium: 
-                input(type="textbox" id="artworkMedium")  
-            button(type="submit" id="search") Search
-            br
+      .pagination
+        if pageNumber > 0
+          a.pagination-btn(href=`${likes ? '/likedArtworks' : '/artwork'}?page=${pageNumber - 1}`) ← Previous
+        else
+          span.pagination-btn.disabled ← Previous
         
-        div#results
-            //- each piece in artworks
-            //-     a(href=`/artwork/${piece.name}`) #{piece.name} by #{piece.artist} in #{piece.year}
-            //-     h3 #{piece.description}
-            //-     h4 Category: #{piece.category}
-            //-     h4 Made from: #{piece.medium}
-            //-     img(src=`${piece.image}`)
-            //-     br
-            //-     br
+        span.pagination-btn(style="background: #667eea; color: white;") Page #{parseInt(pageNumber) + 1}
+        
+        if !maxPage
+          a.pagination-btn(href=`${likes ? '/likedArtworks' : '/artwork'}?page=${parseInt(pageNumber) + 1}`) Next →
+        else
+          span.pagination-btn.disabled Next →
+
+    script(src="/artworks.js")
+    script.
+      window.onload = function() { init(!{JSON.stringify(artworks)}); };

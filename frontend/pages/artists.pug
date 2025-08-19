@@ -1,20 +1,45 @@
-doctype html 
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Art Gallery - Following
+    link(rel="stylesheet", href="/styles/main.css")
+    link(rel="preconnect", href="https://fonts.googleapis.com")
+    link(rel="preconnect", href="https://fonts.gstatic.com", crossorigin)
+    link(href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap", rel="stylesheet")
+  
+  body
+    .main-content
+      header.header
+        .container
+          .header-content
+            a.logo(href="/home") Art Gallery
+            nav.nav-menu
+              a.nav-link(href="/home") Home
+              a.nav-link(href="/artwork") Browse Art
+              a.nav-link(href="/notifications") Notifications
 
-html 
-    head 
-        title Artists
-        meta(charset="UTF-8")
-        script(src="artists.js")
+      .container(style="padding: 40px 20px;")
+        .card-title(style="margin-bottom: 30px; font-size: 28px;") Artists You Follow
+        
+        if follows && follows.length > 0
+          .artists-grid(style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px;")
+            each artist in follows
+              .card
+                .card-body(style="text-align: center;")
+                  .profile-avatar(style="width: 80px; height: 80px; margin: 0 auto 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; font-size: 32px;")= artist.charAt(0).toUpperCase()
+                  .card-title
+                    a(href=`/artist/${artist}`, style="color: #2c3e50; text-decoration: none;")= artist
+                  button.btn.btn-danger.unfollow(id=artist) Unfollow
+        else
+          .card(style="text-align: center; padding: 60px 20px;")
+            .card-title No artists followed
+            .card-text 
+              | Discover amazing artists by browsing 
+              a(href="/artwork", style="color: #667eea; font-weight: 600;") artworks
+              |  and following your favorites.
 
-    body(onload="init()")
-        include ../partials/header.pug
-
-        if follows.length == 0
-            h1 No Followed Artists
-        else 
-            h1 Followed Artists:
-
-        each artist in follows
-            a(href=`/artist/${artist}`) #{artist}'s Page
-            button(type="submit" id=`${artist}` class="unfollow") Unfollow
-            br
+    script(src="/artists.js")
+    script.
+      window.onload = init;
